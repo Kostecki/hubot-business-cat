@@ -38,6 +38,6 @@ regex = new RegExp jargon.join('|'), 'gi'
 
 exports = module.exports = (robot) ->
   robot.hear regex, (msg) ->
-    msg.send msg.random images
+    msg.send "Trigger: " regex + "\n" + msg.random images
 
 exports.removeTerm = removeTerm
