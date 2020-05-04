@@ -34,11 +34,16 @@ if process.env.HUBOT_BUSINESS_CAT_OMITTED_JARGON?
   omittedJargon = (process.env.HUBOT_BUSINESS_CAT_OMITTED_JARGON).split(',')
   jargon = removeTerm(term, jargon) for term in omittedJargon
 
-regex = new RegExp jargon.join('|'), 'gi'
+regex = jargon.join('|')
+regex = "(?<=(^|\\s))(#{regex})(?=([\\s\\.,\\/]|$))"
+
+new RegExp regex, 'gi'
 
 exports = module.exports = (robot) ->
   robot.hear regex, (msg) ->
-    msg.send "Trigger: " + msg['match']
+    matches = msg['match']
+    
+    msg.send "Trigger: #{matches[0].trim()}"
     msg.send msg.random images
 
 exports.removeTerm = removeTerm
